@@ -7,7 +7,8 @@ const NavbarLayout = ({ children }: { children: React.ReactNode }) => {
     <>
         <nav className="bg-gray-800 p-4">
             <div className="container mx-auto">
-            <h1 className="text-white text-2xl">Job Board</h1>
+            <h1 className="text-secondary">Job Board</h1>
+            <h1 className="text-primary">Welcome to my homepage!</h1>
             </div>
         </nav>
       <main>{children}</main>
