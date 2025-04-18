@@ -1,7 +1,6 @@
 "use client";
 
 import React,{ useEffect, useState } from "react";
-import DarkModeTest from "@/app/t";
 import Header from "@/components/shared/header";
 
 const NavbarLayout = ({ children }: { children: React.ReactNode }) => {
