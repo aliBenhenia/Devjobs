@@ -7,6 +7,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        maxWidth: {
+          custom: "255px", // 👈 name it whatever you want
+        },
         bg: {
           DEFAULT: '#ffffff',       // light mode background
           dark: '#121721',          // dark mode background

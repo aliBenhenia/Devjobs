@@ -13,10 +13,10 @@ interface SearchProps {
 export default function Search({ filters, onChange }: SearchProps) {
   return (
     <div className="w-full max-w-6xl mx-auto">
-      <div className="bg-bg dark:bg-bg-dark rounded-lg flex flex-col md:flex-row items-center shadow-md">
+      <div className="bg-card dark:bg-card-dark rounded-lg flex flex-col md:flex-row items-center shadow-md">
         {/* Text Input */}
         <div className="flex-1 w-full flex items-center px-6 py-4 md:border-r dark:border-gray-700">
-          <SearchIcon className="w-5 h-5 text-[#5964E0] mr-4" />
+          <SearchIcon className="w-5 h-5 text-accent mr-4" />
           <input
             type="text"
             placeholder="Filter by title, companies, expertise..."
@@ -28,7 +28,7 @@ export default function Search({ filters, onChange }: SearchProps) {
 
         {/* Location Input */}
         <div className="flex-1 w-full flex items-center px-6 py-4 md:border-r dark:border-gray-700">
-          <MapPinIcon className="w-5 h-5 text-[#5964E0] mr-4" />
+          <MapPinIcon className="w-5 h-5 text-accent mr-4" />
           <input
             type="text"
             placeholder="Filter by location..."
@@ -51,7 +51,7 @@ export default function Search({ filters, onChange }: SearchProps) {
               <div
                 className={`block w-5 h-5 rounded border ${
                   filters.fullTimeOnly
-                    ? "bg-[#5964E0] border-[#5964E0]"
+                    ? "bg-accent border-accent"
                     : "bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600"
                 }`}
               >
@@ -68,7 +68,7 @@ export default function Search({ filters, onChange }: SearchProps) {
           {/* Search Button */}
           <button
             type="button"
-            className="ml-6 px-8 py-3 bg-[#5964E0] hover:bg-[#939BF4] text-white font-bold rounded-md transition-colors"
+            className="ml-6 px-8 py-3 bg-accent hover:bg-[#939BF4] text-white font-bold rounded-md transition-colors"
           >
             Search
           </button>
