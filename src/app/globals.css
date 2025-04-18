@@ -3,9 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color:#ddd;
-}
+
 :root {
   --color-background:red;
   --color-foreground: #171717;
