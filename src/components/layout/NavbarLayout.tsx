@@ -2,6 +2,7 @@
 
 import React,{ useEffect, useState } from "react";
 import DarkModeTest from "@/app/t";
+import Header from "@/components/shared/header";
 
 const NavbarLayout = ({ children }: { children: React.ReactNode }) => {
   const [darkMode, setDarkMode] = useState(() => {
@@ -23,7 +24,7 @@ const NavbarLayout = ({ children }: { children: React.ReactNode }) => {
   }, [darkMode]);
   return (
     <>
-        <nav className="bg-gray-800 p-4">
+        {/* <nav className="bg-gray-800 p-4">
 
             <div className="container mx-auto">
             <h1 className="text-secondary">Job Board</h1>
@@ -40,8 +41,9 @@ const NavbarLayout = ({ children }: { children: React.ReactNode }) => {
 
 
             </div>
-        </nav>
-        <DarkModeTest />
+        </nav> */}
+        {/* <DarkModeTest /> */}
+      <Header />
       <main>{children}</main>
     </>
   );
