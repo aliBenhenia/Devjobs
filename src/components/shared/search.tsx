@@ -1,53 +1,79 @@
-import React from "react";
+"use client"
+import { SearchIcon, MapPinIcon } from "lucide-react"
 
 interface SearchProps {
   filters: {
-    searchText: string;
-    selectedLocation: string;
-    remoteOnly: boolean;
-  };
-  onChange: (filters: SearchProps["filters"]) => void;
+    searchText: string
+    selectedLocation: string
+    fullTimeOnly: boolean
+  }
+  onChange: (filters: SearchProps["filters"]) => void
 }
 
 export default function Search({ filters, onChange }: SearchProps) {
   return (
-    <div className="bg-card p-4 rounded-lg flex flex-col gap-4">
-      {/* Text Input */}
-      <input
-        type="text"
-        placeholder="Search jobs..."
-        value={filters.searchText}
-        onChange={(e) =>
-          onChange({ ...filters, searchText: e.target.value })
-        }
-        className="p-2 rounded border border-border"
-      />
+    <div className="w-full max-w-6xl mx-auto">
+      <div className="bg-bg dark:bg-bg-dark rounded-lg flex flex-col md:flex-row items-center shadow-md">
+        {/* Text Input */}
+        <div className="flex-1 w-full flex items-center px-6 py-4 md:border-r dark:border-gray-700">
+          <SearchIcon className="w-5 h-5 text-[#5964E0] mr-4" />
+          <input
+            type="text"
+            placeholder="Filter by title, companies, expertise..."
+            value={filters.searchText}
+            onChange={(e) => onChange({ ...filters, searchText: e.target.value })}
+            className="w-full bg-transparent outline-none dark:text-white placeholder:text-gray-500"
+          />
+        </div>
 
-      {/* Select Input */}
-      <select
-        value={filters.selectedLocation}
-        onChange={(e) =>
-          onChange({ ...filters, selectedLocation: e.target.value })
-        }
-        className="p-2 rounded border border-border"
-      >
-        <option value="">All Types</option>
-        <option value="Full-time">Full-time</option>
-        <option value="Part-time">Part-time</option>
-        <option value="Contract">Contract</option>
-      </select>
+        {/* Location Input */}
+        <div className="flex-1 w-full flex items-center px-6 py-4 md:border-r dark:border-gray-700">
+          <MapPinIcon className="w-5 h-5 text-[#5964E0] mr-4" />
+          <input
+            type="text"
+            placeholder="Filter by location..."
+            value={filters.selectedLocation}
+            onChange={(e) => onChange({ ...filters, selectedLocation: e.target.value })}
+            className="w-full bg-transparent outline-none dark:text-white placeholder:text-gray-500"
+          />
+        </div>
 
-      {/* Checkbox */}
-      <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          checked={filters.remoteOnly}
-          onChange={(e) =>
-            onChange({ ...filters, remoteOnly: e.target.checked })
-          }
-        />
-        Remote only
-      </label>
+        {/* Full Time Only Checkbox */}
+        <div className="flex items-center justify-between px-6 py-4 w-full md:w-auto">
+          <label className="flex items-center cursor-pointer">
+            <div className="relative">
+              <input
+                type="checkbox"
+                checked={filters.fullTimeOnly}
+                onChange={(e) => onChange({ ...filters, fullTimeOnly: e.target.checked })}
+                className="sr-only"
+              />
+              <div
+                className={`block w-5 h-5 rounded border ${
+                  filters.fullTimeOnly
+                    ? "bg-[#5964E0] border-[#5964E0]"
+                    : "bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600"
+                }`}
+              >
+                {filters.fullTimeOnly && (
+                  <svg className="w-5 h-5 text-white fill-current" viewBox="0 0 20 20">
+                    <path d="M0 11l2-2 5 5L18 3l2 2L7 18z" />
+                  </svg>
+                )}
+              </div>
+            </div>
+            <span className="ml-3 font-bold dark:text-white">Full Time Only</span>
+          </label>
+
+          {/* Search Button */}
+          <button
+            type="button"
+            className="ml-6 px-8 py-3 bg-[#5964E0] hover:bg-[#939BF4] text-white font-bold rounded-md transition-colors"
+          >
+            Search
+          </button>
+        </div>
+      </div>
     </div>
-  );
+  )
 }

@@ -5,7 +5,7 @@ import data  from "@/data/data.json";
 interface filteredDataProps {
   searchText : string,
   selectedLocation : string,
-  remoteOnly : boolean
+  fullTimeOnly : boolean
 }
 interface JobListing {
   id: number;
@@ -34,7 +34,7 @@ export default function Home() {
   const [filteredData, setFilters] = useState<filteredDataProps>({
     searchText : "",
     selectedLocation : "",
-    remoteOnly : false
+    fullTimeOnly : false
   });
   const [jobData, setJobData] = useState<JobListing[]>(data);
   useEffect(() => {
@@ -46,9 +46,9 @@ export default function Home() {
         ? item.location === filteredData.selectedLocation
         : true;
 
-      const matchesRemote = filteredData.remoteOnly ? item.remote === true : true;
+      const matchesFullTime = filteredData.fullTimeOnly ? item.contract === "Full Time" : true;
 
-      return matchesText && matchesLocations && matchesRemote;
+      return (matchesText && matchesLocations && matchesFullTime);
     });
 
     setJobData(filtered);
