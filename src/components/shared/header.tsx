@@ -17,11 +17,12 @@ export default function Header() {
   };
 
   return (
-    <header className="relative z-50 "
-    style={{height: "160px"}}
+    <header className=" "
+   
     >
       {/* Banner background with Next.js Image */}
-      <div className="absolute inset-0 h-[300px] rounded-bl-[100px] z-0 h-[500px]">
+      <div className="absolute inset-0 h-[300px] rounded-bl-[100px]  h-[500px]" 
+      style={{height: "160px",zIndex: "-66"}}>
         <Image
           src="/assets/desktop/bg-pattern-header.svg"
           alt="Header background"

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import NavbarLayout from "@/components/layout/NavbarLayout";
+import NavbarLayout from "@/components/layout/HeaderLayout";
 // import ThemeToggle from "./t";
 export const metadata: Metadata = {
   title: "Job board",

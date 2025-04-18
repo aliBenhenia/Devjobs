@@ -23,29 +23,10 @@ const NavbarLayout = ({ children }: { children: React.ReactNode }) => {
     }
   }, [darkMode]);
   return (
-    <>
-        {/* <nav className="bg-gray-800 p-4">
-
-            <div className="container mx-auto">
-            <h1 className="text-secondary">Job Board</h1>
-            <div className="bg-background text-foreground dark:bg-background-dark dark:text-foreground-dark p-6 rounded">
-  Hello with dark mode!
-</div>
-<div className="bg-base-dark text-base-white p-4 rounded">
-  This uses your custom base colors from tailwind.config.js
-</div>
-
-<button className="bg-base-blue text-base-white hover:bg-base-violet">
-  Click me
-</button>
-
-
-            </div>
-        </nav> */}
-        {/* <DarkModeTest /> */}
+    <div className="flex flex-col justify-center max-w-6xl mx-auto">
       <Header />
       <main>{children}</main>
-    </>
+    </div>
   );
 };
 
