@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import ThemeSwitch from "@/components/ui/switch";
 import { useEffect, useState } from "react";
 
 export default function Header() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Sync with system or persisted preference (optional)
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode);
   }, [isDarkMode]);
@@ -17,10 +17,17 @@ export default function Header() {
   };
 
   return (
-    <header className="relative bg-red-600 h-[800px]">
-      {/* Banner background with increased height */}
-      <div className="absolute inset-0 h-[500px] bg-accent rounded-bl-[100px] z-0">
-        <div className="absolute inset-0 bg-[url('/assets/desktop/bg-pattern-header.svg')] bg-no-repeat bg-cover opacity-10" />
+    <header className="relative z-50 "
+    style={{height: "160px"}}
+    >
+      {/* Banner background with Next.js Image */}
+      <div className="absolute inset-0 h-[300px] rounded-bl-[100px] z-0 h-[500px]">
+        <Image
+          src="/assets/desktop/bg-pattern-header.svg"
+          alt="Header background"
+          fill
+          priority
+        />
       </div>
 
       <div className="relative container z-10 mx-auto px-4 py-8">
