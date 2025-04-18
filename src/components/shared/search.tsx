@@ -7,10 +7,11 @@ interface SearchProps {
     selectedLocation: string
     fullTimeOnly: boolean
   }
-  onChange: (filters: SearchProps["filters"]) => void
+  onChange: (filters: SearchProps["filters"]) => void;
+  locations? : string[]
 }
 
-export default function Search({ filters, onChange }: SearchProps) {
+export default function Search({ filters, onChange ,locations}: SearchProps) {
   return (
     <div className="w-full max-w-6xl mx-auto">
       <div className="bg-card dark:bg-card-dark rounded-lg flex flex-col md:flex-row items-center shadow-md">
@@ -29,13 +30,18 @@ export default function Search({ filters, onChange }: SearchProps) {
         {/* Location Input */}
         <div className="flex-1 w-full flex items-center px-6 py-4 md:border-r dark:border-gray-700">
           <MapPinIcon className="w-5 h-5 text-accent mr-4" />
-          <input
-            type="text"
-            placeholder="Filter by location..."
+          <select
             value={filters.selectedLocation}
             onChange={(e) => onChange({ ...filters, selectedLocation: e.target.value })}
             className="w-full bg-transparent outline-none dark:text-white placeholder:text-gray-500"
-          />
+          >
+            <option value="">Location</option>
+            {locations?.map((location) => (
+              <option key={location} value={location}>
+                {location}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Full Time Only Checkbox */}

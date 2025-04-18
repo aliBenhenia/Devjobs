@@ -3,6 +3,7 @@ import { useState,useEffect, use } from "react";
 import Search from "@/components/shared/search";
 import data  from "@/data/data.json";
 import Card from "@/components/shared/Card";
+import getLocations from "@/lib/getLocations";
 interface filteredDataProps {
   searchText : string,
   selectedLocation : string,
@@ -56,7 +57,7 @@ export default function Home() {
   }, [filteredData]);
   return (
     <div className="">
-      <Search filters={filteredData} onChange={setFilters} />
+      <Search filters={filteredData} onChange={setFilters} locations={getLocations(data)}/>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
       {jobData.map((job) => (
         <Card key={job.id} {...job} />
