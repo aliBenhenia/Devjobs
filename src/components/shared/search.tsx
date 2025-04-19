@@ -16,7 +16,7 @@ export default function Search({ filters, onChange ,locations}: SearchProps) {
     <div className="w-full max-w-6xl mx-auto">
       <div className="bg-card dark:bg-card-dark rounded-lg flex flex-col md:flex-row items-center shadow-md">
         {/* Text Input */}
-        <div className="flex-1 w-full flex items-center px-6 py-4 md:border-r dark:border-gray-700">
+        <div className="flex-1 w-full flex items-center px-6 py-4 md:border-r dark:border-gray-700 ">
           <SearchIcon className="w-5 h-5 text-accent mr-4" />
           <input
             type="text"

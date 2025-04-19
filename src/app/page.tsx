@@ -1,5 +1,6 @@
 "use client";
 import { useState,useEffect, use } from "react";
+import { useRouter } from "next/navigation";
 import Search from "@/components/shared/search";
 import data  from "@/data/data.json";
 import Card from "@/components/shared/Card";
@@ -33,6 +34,7 @@ interface JobListing {
 
 
 export default function Home() {
+  const router = useRouter();
   const [filteredData, setFilters] = useState<filteredDataProps>({
     searchText : "",
     selectedLocation : "",
@@ -60,7 +62,9 @@ export default function Home() {
       <Search filters={filteredData} onChange={setFilters} locations={getLocations(data)}/>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
       {jobData.map((job) => (
-        <Card key={job.id} {...job} />
+        <div key={job.id} className="cursor-pointer" onClick={() => router.push(`/job/${job.id}`)}>
+          <Card {...job} />
+        </div>
       ))}
     </div>
     

@@ -28,7 +28,7 @@ module.exports = {
         },
         card: {
           DEFAULT: '#f9f9f9',       // card in light
-          dark: '#313743',          // card in dark
+          dark: '#19202d',          // card in dark
         },
         border: {
           DEFAULT: '#e7e8e9',       // border light
