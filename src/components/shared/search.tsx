@@ -33,7 +33,7 @@ export default function Search({ filters, onChange ,locations}: SearchProps) {
           <select
             value={filters.selectedLocation}
             onChange={(e) => onChange({ ...filters, selectedLocation: e.target.value })}
-            className="w-full bg-transparent outline-none dark:text-white placeholder:text-gray-500"
+            className="w-full p-2 bg-card dark:bg-card-dark outline-none dark:text-white placeholder:text-gray-500"
           >
             <option value="">Location</option>
             {locations?.map((location) => (
