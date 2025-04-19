@@ -1,6 +1,6 @@
 "use client"
 import { SearchIcon, MapPinIcon } from "lucide-react"
-
+import Button from "@/components/ui/Button"
 interface SearchProps {
   filters: {
     searchText: string
@@ -72,12 +72,15 @@ export default function Search({ filters, onChange ,locations}: SearchProps) {
           </label>
 
           {/* Search Button */}
-          <button
+          {/* <button
             type="button"
             className="ml-6 px-8 py-3 bg-accent hover:bg-[#939BF4] text-white font-bold rounded-md transition-colors"
           >
             Search
-          </button>
+          </button> */}
+          <Button  className="ml-6 px-8 py-3 bg-accent hover:bg-[#939BF4] text-white font-bold rounded-md transition-colors" >
+            Search
+          </Button>
         </div>
       </div>
     </div>

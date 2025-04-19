@@ -34,7 +34,7 @@ interface Job {
 
 // Import the jobs data
 import jobsData from "@/data/data.json"
-
+import Button from "@/components/ui/Button"
 export default function JobDetailsPage() {
   const params = useParams()
   const [job, setJob] = useState<Job | null>(null)
@@ -118,7 +118,7 @@ export default function JobDetailsPage() {
               rel="noopener noreferrer"
               className="mt-4 md:mt-0 px-6 py-2 bg-gray-100 text-blue-600 hover:bg-gray-200 rounded-md transition-colors"
             >
-              Company Site
+              Company Site              
             </Link>
           </div>
         </div>
