@@ -1,14 +1,60 @@
 "use client"
 import { SearchIcon, MapPinIcon } from "lucide-react"
 import Button from "@/components/ui/Button"
+export const companies = [
+  "figma",
+  "airbnb",
+  "discord",
+  "stripe",
+  "openai",
+  "github",
+  "notion",
+  "dropbox",
+  "doordash",
+  "robinhood",
+  "coursera",
+  "gusto",
+  "asana",
+  "loom",
+  "ramp",
+  "atlassian",
+  "datadog",
+  "snapchat",
+  "twitch",
+  "unity",
+  "intercom",
+  "clickup",
+  "cruise",
+  "brex",
+  "niantic",
+  "postman",
+  "coinbase",
+  "affirm",
+  "gem",
+  "instacart",
+  "hellofresh",
+  "klaviyo",
+  "uber",
+  "reddit",
+  "attentive",
+  "grubhub",
+  "quip",
+  "wise",
+  "monday",
+  "cloudflare",
+  "okta",
+  "squarespace",
+  "zendesk"
+];
+
 interface SearchProps {
   filters: {
     searchText: string
     selectedLocation: string
-    fullTimeOnly: boolean
+    selectedCompany: string
   }
   onChange: (filters: SearchProps["filters"]) => void;
-  locations? : string[]
+  locations? : string[];
 }
 
 export default function Search({ filters, onChange ,locations}: SearchProps) {
@@ -43,10 +89,28 @@ export default function Search({ filters, onChange ,locations}: SearchProps) {
             ))}
           </select>
         </div>
+        {/* comapanies Input */}
+        <div className="flex-1 w-full flex items-center px-6 py-4 md:border-r dark:border-gray-700">
+          <MapPinIcon className="w-5 h-5 text-accent mr-4" />
+          <select
+            value={filters.selectedLocation}
+            onChange={(e) => onChange({ ...filters, selectedCompany: e.target.value })}
+            className="w-full p-2 bg-card dark:bg-card-dark outline-none dark:text-white placeholder:text-gray-500"
+          >
+            <option value="">
+              {filters.selectedCompany || "Companies"}
+            </option>
+            {companies?.map((location) => (
+              <option key={location} value={location}>
+                {location}
+              </option>
+            ))}
+          </select>
+        </div>
 
         {/* Full Time Only Checkbox */}
         <div className="flex items-center justify-between px-6 py-4 w-full md:w-auto">
-          <label className="flex items-center cursor-pointer">
+          {/* <label className="flex items-center cursor-pointer">
             <div className="relative">
               <input
                 type="checkbox"
@@ -69,7 +133,7 @@ export default function Search({ filters, onChange ,locations}: SearchProps) {
               </div>
             </div>
             <span className="ml-3 font-bold dark:text-white">Full Time Only</span>
-          </label>
+          </label> */}
 
           {/* Search Button */}
           {/* <button

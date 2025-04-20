@@ -1,9 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: ['logo.clearbit.com'],
+  },
+  // Optional: Tailwind (if you're not using PostCSS config file)
   postcss: {
-    plugins: [require('tailwindcss')],
+    plugins: [require('tailwindcss'), require('autoprefixer')],
   },
 };
 
