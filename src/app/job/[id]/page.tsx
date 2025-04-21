@@ -2,10 +2,12 @@
 
 import { useParams } from "next/navigation"
 import Link from "next/link"
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import Button from "@/components/ui/Button"
 import parse from 'html-react-parser';
 import he from 'he';
+import { useSearchParams } from "next/navigation";
+import api from "@/services/api"
 
 interface Job {
   id: number
@@ -19,14 +21,14 @@ interface Job {
 }
 
 export default function JobDetailsPage() {
-  const params = useParams()
+  const params = useParams();
   const [job, setJob] = useState<Job | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const company = useSearchParams().get("company") || "figma"; // Default to "figma" if no company is provided
 
   useEffect(() => {
-    const jobId = params?.id
-
+    const jobId = params?.id;
     if (!jobId) {
       setError("Invalid job ID")
       setLoading(false)
@@ -35,10 +37,9 @@ export default function JobDetailsPage() {
 
     const fetchJob = async () => {
       try {
-        const res = await fetch(`https://boards-api.greenhouse.io/v1/boards/figma/jobs/${jobId}?content=true`)
-        if (!res.ok) throw new Error("Job not found")
-
-        const data = await res.json()
+        const res = await api.get(`/${company}/jobs/${jobId}?content=true`)
+        if (res.status !== 200) throw new Error("Job not found")
+        const data = res.data;
         setJob(data)
       } catch (err: any) {
         setError(err.message || "Failed to fetch job")

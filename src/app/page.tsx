@@ -8,6 +8,8 @@ import getLocations from "@/lib/getLocations";
 import { getJobs } from "@/services/getJobs";
 import { Spin } from "antd";
 import { PAGE_SIZE } from "@/constants"; // Assuming you have a constants file
+import { useSearchParams } from "next/navigation";
+
 
 // const PAGE_SIZE = 10;
 
@@ -109,7 +111,7 @@ export default function Home() {
           <div
             key={job.id}
             className="cursor-pointer"
-            onClick={() => router.push(`/job/${job.id}`)}
+            onClick={() => router.push(`/job/${job.id}?company=${job.company}`)}
           >
             <Card {...job} />
           </div>

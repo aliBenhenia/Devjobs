@@ -1,4 +1,5 @@
 import axios from "axios";
+import api from "./api"; // Import the axios instance
 
 // Define the structure of the JobListing
 interface JobListing {
@@ -46,7 +47,7 @@ const boardToken = "lever"; // Change to any board like "airbnb", "stripe", etc.
 
 // Define the function to fetch job listings
 export async function getJobs(company: string = "Figma"): Promise<JobListing[]> {
-  const res = await axios.get(`https://boards-api.greenhouse.io/v1/boards/${company}/jobs`);
+  const res = await api.get(`/${company}/jobs`);
   const jobs = res.data.jobs;
 
   // Map the jobs to our JobListing type
