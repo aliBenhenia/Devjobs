@@ -7,8 +7,9 @@ import Card from "@/components/shared/Card";
 import getLocations from "@/lib/getLocations";
 import { getJobs } from "@/services/getJobs";
 import { Spin } from "antd";
+import { PAGE_SIZE } from "@/constants"; // Assuming you have a constants file
 
-const PAGE_SIZE = 10;
+// const PAGE_SIZE = 10;
 
 export default function Home() {
   const router = useRouter();
