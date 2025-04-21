@@ -2,7 +2,7 @@
 
 import React,{ useEffect, useState } from "react";
 import Header from "@/components/shared/header";
-
+import Footer from "@/components/shared/footer";
 const NavbarLayout = ({ children }: { children: React.ReactNode }) => {
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -25,6 +25,7 @@ const NavbarLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="flex flex-col justify-center max-w-6xl mx-auto">
       <Header />
       <main>{children}</main>
+      <Footer />
     </div>
   );
 };

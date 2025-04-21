@@ -139,13 +139,6 @@ export default function JobDetailsPage() {
             </Link>
           </div>
         </div>
-    
-        {/* Page Footer */}
-        <footer className="mt-16 border-t border-gray-600 pt-6 text-center text-sm text-gray-400 dark:text-gray-500">
-          <p>© {new Date().getFullYear()} JobBoard by YourName. All rights reserved.</p>
-        </footer>
       </div>
-    
-
   )
 }
