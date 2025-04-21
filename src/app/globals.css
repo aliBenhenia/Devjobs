@@ -21,3 +21,60 @@
   --color-muted: #1f2937;
   --color-card: #111827;
 }
+
+/* globals.css */
+
+.job-content {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.job-content p {
+  margin-bottom: 1.2rem;
+}
+
+.job-content h1,
+.job-content h2,
+.job-content h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.job-content ul,
+.job-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.job-content li {
+  margin-bottom: 0.5rem;
+  list-style-type: disc;
+}
+
+.job-content a {
+  color: #1890ff;
+  text-decoration: underline;
+}
+
+.job-content a:hover {
+  color: #40a9ff;
+}
+
+.job-content strong {
+  font-weight: 600;
+}
+
+.job-content .content-intro,
+.job-content .content-conclusion {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.job-content blockquote {
+  padding: 1rem;
+  background-color: #00152933;
+  border-left: 4px solid #1890ff;
+  margin-bottom: 1.5rem;
+}
+

@@ -11,6 +11,8 @@
   "dependencies": {
     "antd": "^5.24.7",
     "axios": "^1.8.4",
+    "he": "^1.2.0",
+    "html-react-parser": "^5.2.3",
     "lucide-react": "^0.494.0",
     "next": "15.3.0",
     "react": "^19.0.0",
