@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Search from "@/components/shared/search";
 import Card from "@/components/shared/Card";
@@ -7,34 +8,35 @@ import getLocations from "@/lib/getLocations";
 import { getJobs } from "@/services/getJobs";
 import { Spin } from "antd";
 
-
-const PAGE_SIZE = 10; // How many jobs per scroll load
+const PAGE_SIZE = 10;
 
 export default function Home() {
   const router = useRouter();
+
   const [filters, setFilters] = useState({
     searchText: "",
     selectedLocation: "",
     selectedCompany: "",
   });
 
-  const [allJobs, setAllJobs] = useState([]);
-  const [visibleJobs, setVisibleJobs] = useState([]);
+  const [allJobs, setAllJobs] = useState<any[]>([]);
+  const [filteredJobs, setFilteredJobs] = useState<any[]>([]);
+  const [visibleJobs, setVisibleJobs] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const loader = useRef<HTMLDivElement>(null);
 
-  // Fetch jobs when company changes
+  // Fetch jobs on company change
   useEffect(() => {
     const fetchJobs = async () => {
       setLoading(true);
       try {
-        const jobs = await getJobs(filters.selectedCompany || "figma");
+        const company = filters.selectedCompany || "figma";
+        const jobs = await getJobs(company);
         setAllJobs(jobs);
-        setVisibleJobs(jobs.slice(0, PAGE_SIZE));
         setPage(1);
-      } catch (err) {
-        console.error("Failed to fetch jobs:", err);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
       } finally {
         setLoading(false);
       }
@@ -43,59 +45,65 @@ export default function Home() {
     fetchJobs();
   }, [filters.selectedCompany]);
 
-  // Filter again when text or location changes
+  // Filter jobs by searchText and location
   useEffect(() => {
-    const filtered = allJobs.filter((item) => {
-      const matchesText = item.position
-        .toLowerCase()
-        .includes(filters.searchText.toLowerCase());
+    const filtered = allJobs.filter((job) => {
+      const title = job.position?.toLowerCase() || "";
+      const location = job.location || "";
+
+      const matchesText = filters.searchText.trim()
+        ? title.includes(filters.searchText.toLowerCase().trim())
+        : true;
 
       const matchesLocation = filters.selectedLocation
-        ? item.location === filters.selectedLocation
+        ? location === filters.selectedLocation
         : true;
 
       return matchesText && matchesLocation;
     });
 
+    setFilteredJobs(filtered);
     setVisibleJobs(filtered.slice(0, PAGE_SIZE));
     setPage(1);
   }, [filters.searchText, filters.selectedLocation, allJobs]);
 
-  // Infinite Scroll using IntersectionObserver
+  // Load more jobs on scroll
+  const loadMore = useCallback(() => {
+    const nextPage = page + 1;
+    const newVisibleJobs = filteredJobs.slice(0, nextPage * PAGE_SIZE);
+    setVisibleJobs(newVisibleJobs);
+    setPage(nextPage);
+  }, [page, filteredJobs]);
+
+  // IntersectionObserver for infinite scroll
   useEffect(() => {
+    if (!loader.current) return;
+
     const observer = new IntersectionObserver(
-      (entries) => {
-        const target = entries[0];
-        if (target.isIntersecting && !loading) {
+      ([entry]) => {
+        if (entry.isIntersecting && !loading && visibleJobs.length < filteredJobs.length) {
           loadMore();
         }
       },
-      { threshold: 1 }
+      { threshold: 1.0 }
     );
 
-    if (loader.current) observer.observe(loader.current);
+    observer.observe(loader.current);
 
     return () => {
       if (loader.current) observer.unobserve(loader.current);
     };
-  }, [loader, visibleJobs]);
-
-  const loadMore = () => {
-    const nextPage = page + 1;
-    const nextItems = allJobs.slice(0, nextPage * PAGE_SIZE);
-    setVisibleJobs(nextItems);
-    setPage(nextPage);
-  };
+  }, [loader.current, visibleJobs, filteredJobs, loading, loadMore]);
 
   return (
-    <div>
+    <div className="px-4 py-6 max-w-7xl mx-auto">
       <Search
         filters={filters}
         onChange={setFilters}
         locations={getLocations(allJobs)}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 ml-4 mr-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
         {visibleJobs.map((job) => (
           <div
             key={job.id}
@@ -107,15 +115,17 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Loader div for infinite scroll */}
-    
-    
-      <div ref={loader} className="flex justify-center items-center mt-10 min-h-[100px]">
-        <Spin size="large" >
-    <div className="h-10 w-10" /> {/* dummy content to activate nested mode */}
-  </Spin>
-</div>
-
+      {/* Infinite Scroll Loader */}
+      <div
+        ref={loader}
+        className="flex justify-center items-center mt-10 min-h-[100px]"
+      >
+        {loading && (
+          <Spin size="large">
+            <div className="h-10 w-10" />
+          </Spin>
+        )}
+      </div>
     </div>
   );
 }
