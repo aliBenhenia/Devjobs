@@ -3,7 +3,7 @@
 import React,{ useEffect, useState } from "react";
 import Header from "@/components/shared/header";
 import Footer from "@/components/shared/footer";
-const NavbarLayout = ({ children }: { children: React.ReactNode }) => {
+const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.theme === 'dark';
@@ -30,4 +30,4 @@ const NavbarLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default NavbarLayout;
+export default AppLayout;

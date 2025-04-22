@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import NavbarLayout from "@/components/layout/HeaderLayout";
+import AppLayout from "@/components/layout/AppLayout";
 // import ThemeToggle from "./t";
 export const metadata: Metadata = {
   title: "Job board",
@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="en" >
       <body className="bg-bg dark:bg-bg-dark">
         {/* <ThemeToggle /> */}
-        <NavbarLayout>{children}</NavbarLayout>
+        <AppLayout>{children}</AppLayout>
       </body>
     </html>
   );
