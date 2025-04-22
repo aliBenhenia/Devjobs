@@ -1,5 +1,5 @@
 // constants/filters.ts
-
+export const DEFAULT_COMPANY = "figma";
 export const COMPANIES = [
     "figma",
     "airbnb",

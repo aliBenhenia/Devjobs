@@ -1,30 +1,9 @@
 import axios from "axios";
 import api from "./api"; // Import the axios instance
+import type { JobListing } from "@/types"; // Import the JobListing type
+import { DEFAULT_COMPANY } from "@/constants";
+import {LOGO_BACKGROUND} from "@/constants";
 
-// Define the structure of the JobListing
-interface JobListing {
-  id: number;
-  company: string;
-  logo: string;
-  logoBackground: string;
-  position: string;
-  postedAt: string;
-  contract: string;
-  location: string;
-  website: string;
-  apply: string;
-  description: string;
-  requirements: {
-    content: string;
-    items: string[];
-  };
-  role: {
-    content: string;
-    items: string[];
-  };
-}
-
-// Define the function to get the company logo from Clearbit Autocomplete API
 async function getLogo(companyName: string): Promise<string | null> {
   try {
     // Make a request to Clearbit's autocomplete API
@@ -43,10 +22,8 @@ async function getLogo(companyName: string): Promise<string | null> {
   }
 }
 
-const boardToken = "lever"; // Change to any board like "airbnb", "stripe", etc.
-
 // Define the function to fetch job listings
-export async function getJobs(company: string = "Figma"): Promise<JobListing[]> {
+export async function getJobs(company: string = DEFAULT_COMPANY): Promise<JobListing[]> {
   const res = await api.get(`/${company}/jobs`);
   const jobs = res.data.jobs;
 
@@ -67,7 +44,7 @@ export async function getJobs(company: string = "Figma"): Promise<JobListing[]> 
         id: job.id,
         company: job.company_name || "Unknown",
         logo: finalLogo, // Use the logo fetched from Clearbit or fallback
-        logoBackground: "#ffffff", // Optional: Use random or fixed color
+        logoBackground: LOGO_BACKGROUND, // Optional: Use random or fixed color
         position: job.title,
         postedAt: job.updated_at,
         contract: job.metadata?.find((m: any) => m.name === "Employment Type")?.value || "Full Time",

@@ -2,19 +2,20 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { debounce } from "lodash"; // Install if not already: npm i lodash
 import Search from "@/components/shared/search";
 import Card from "@/components/shared/Card";
 import getLocations from "@/lib/getLocations";
 import { getJobs } from "@/services/getJobs";
 import { Spin } from "antd";
-import { PAGE_SIZE } from "@/constants"; // Assuming you have a constants file
-import { useSearchParams } from "next/navigation";
+import { PAGE_SIZE } from "@/constants";
+import { DEFAULT_COMPANY } from "@/constants";
+import type { JobListing } from "@/types/job";
 
-
-// const PAGE_SIZE = 10;
 
 export default function Home() {
   const router = useRouter();
+  const loader = useRef<HTMLDivElement>(null);
 
   const [filters, setFilters] = useState({
     searchText: "",
@@ -22,19 +23,19 @@ export default function Home() {
     selectedCompany: "",
   });
 
-  const [allJobs, setAllJobs] = useState<any[]>([]);
-  const [filteredJobs, setFilteredJobs] = useState<any[]>([]);
-  const [visibleJobs, setVisibleJobs] = useState<any[]>([]);
+  const [allJobs, setAllJobs] = useState<JobListing[]>([]);
+  const [filteredJobs, setFilteredJobs] = useState<JobListing[]>([]);
+  const [visibleJobs, setVisibleJobs] = useState<JobListing[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const loader = useRef<HTMLDivElement>(null);
+  const [initialLoad, setInitialLoad] = useState(true);
 
   // Fetch jobs on company change
   useEffect(() => {
     const fetchJobs = async () => {
       setLoading(true);
       try {
-        const company = filters.selectedCompany || "figma";
+        const company = filters.selectedCompany || DEFAULT_COMPANY;
         const jobs = await getJobs(company);
         setAllJobs(jobs);
         setPage(1);
@@ -42,11 +43,27 @@ export default function Home() {
         console.error("Error fetching jobs:", error);
       } finally {
         setLoading(false);
+        setInitialLoad(false);
       }
     };
 
     fetchJobs();
   }, [filters.selectedCompany]);
+
+  // Debounce search text to improve UX
+  const debouncedSearch = useRef(
+    debounce((value: string) => {
+      setFilters((prev) => ({ ...prev, searchText: value }));
+    }, 300)
+  ).current;
+
+  const handleFilterChange = (newFilters: typeof filters) => {
+    if (newFilters.searchText !== filters.searchText) {
+      debouncedSearch(newFilters.searchText);
+    } else {
+      setFilters(newFilters);
+    }
+  };
 
   // Filter jobs by searchText and location
   useEffect(() => {
@@ -84,7 +101,11 @@ export default function Home() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !loading && visibleJobs.length < filteredJobs.length) {
+        if (
+          entry.isIntersecting &&
+          !loading &&
+          visibleJobs.length < filteredJobs.length
+        ) {
           loadMore();
         }
       },
@@ -102,14 +123,28 @@ export default function Home() {
     <div className="px-4 py-6 max-w-7xl mx-auto">
       <Search
         filters={filters}
-        onChange={setFilters}
+        onChange={handleFilterChange}
         locations={getLocations(allJobs)}
       />
+
+      {/* Loading for first time */}
+      {initialLoad && (
+        <div className="flex justify-center mt-16">
+          <Spin size="large" />
+        </div>
+      )}
+
+      {/* No jobs found */}
+      {!loading && !initialLoad && filteredJobs.length === 0 && (
+        <div className="text-center text-gray-500 mt-12 text-lg">
+          No jobs found.
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
         {visibleJobs.map((job) => (
           <div
-            key={job.id}
+            key={`${job.id}-${job.company}`}
             className="cursor-pointer"
             onClick={() => router.push(`/job/${job.id}?company=${job.company}`)}
           >
@@ -123,11 +158,7 @@ export default function Home() {
         ref={loader}
         className="flex justify-center items-center mt-10 min-h-[100px]"
       >
-        {loading && (
-          <Spin size="large">
-            <div className="h-10 w-10" />
-          </Spin>
-        )}
+        {loading && !initialLoad && <Spin size="large" />}
       </div>
     </div>
   );
