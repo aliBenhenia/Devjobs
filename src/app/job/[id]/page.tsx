@@ -12,7 +12,8 @@ import Image from "next/image"
 import axios from "axios"
 import type { Job } from "@/types/"
 import getLogo from "@/lib/getLogo"
-import { DEFAULT_COMPANY } from "@/constants"
+import { DEFAULT_COMPANY } from "@/constants";
+import {HTTP_STATUS} from "@/constants";
 
 export default function JobDetailsPage() {
   const params = useParams();
@@ -35,7 +36,7 @@ export default function JobDetailsPage() {
         const res = await api.get(`/${company}/jobs/${jobId}?content=true`)
         const logoUrl = await getLogo(company)
         setLogo(logoUrl)
-        if (res.status !== 200) throw new Error("Job not found")
+        if (res.status !== HTTP_STATUS.OK) throw new Error("Job not found")
         const data = res.data;
         setJob(data)
       } catch (err: any) {

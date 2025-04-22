@@ -1,9 +1,9 @@
-import axios from "axios";
 import api from "./api"; // Import the axios instance
 import type { JobListing } from "@/types"; // Import the JobListing type
 import { DEFAULT_COMPANY } from "@/constants";
 import {LOGO_BACKGROUND} from "@/constants";
-import getLogo from "@/lib/getLogo"; // Import the getLogo function
+import getLogo from "@/lib/getLogo"; 
+import { LOGO_BASE_URL } from "@/constants";
 
 // Define the function to fetch job listings
 export async function getJobs(company: string = DEFAULT_COMPANY): Promise<JobListing[]> {
@@ -17,11 +17,7 @@ export async function getJobs(company: string = DEFAULT_COMPANY): Promise<JobLis
       const website = job.absolute_url;
       const domain = new URL(website).hostname.replace("www.", "");
 
-      // Fetch the logo asynchronously
-    //   const logo = await getLogo(job.company_name || "Unknown");
-
-      // Fallback logo if not found
-      const finalLogo = logo || `https://logo.clearbit.com/${domain}` || "/default-logo.png";
+      const finalLogo = logo || `${LOGO_BASE_URL}/${domain}` || "/default-logo.png";
 
       return {
         id: job.id,

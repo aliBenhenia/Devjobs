@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AppLayout from "@/components/layout/AppLayout";
+
 // import ThemeToggle from "./t";
 export const metadata: Metadata = {
   title: "Job board",

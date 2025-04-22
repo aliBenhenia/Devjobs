@@ -1,7 +1,7 @@
 import axios from "axios";
-
+import {BASE_URL} from "@/constants";
 const api = axios.create({
-    baseURL: "https://boards-api.greenhouse.io/v1/boards",
+    baseURL: BASE_URL,
     headers: {
         "Content-Type": "application/json",
     },
