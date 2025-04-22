@@ -3,6 +3,17 @@ import type { JobListing } from "@/types"; // Import the JobListing type
 import { DEFAULT_COMPANY, LOGO_BASE_URL, LOGO_BACKGROUND } from "@/constants";
 import getLogo from "@/lib/getLogo"; 
 import handleApiError from "@/lib/handleApiError"; // Import the error handling function
+import { AxiosError } from "axios"; // Import AxiosError for error handling
+interface Job {
+  id: number;
+  absolute_url: string;
+  company_name: string;
+  title: string;
+  updated_at: string;
+  metadata: { name: string; value: string }[];
+  location: { name: string };
+  content: string;
+}
 
 // Define the function to fetch job listings
 export async function getJobs(company: string = DEFAULT_COMPANY): Promise<JobListing[]> {
@@ -18,7 +29,7 @@ export async function getJobs(company: string = DEFAULT_COMPANY): Promise<JobLis
     const logo = await getLogo(company);  // Fetch logo for the company once
     
     const listings: JobListing[] = await Promise.all(
-      jobs.map((job: any) => {
+      jobs.map((job: Job) => {
         const { absolute_url, company_name, title, updated_at, metadata, location, content } = job; // Destructuring job object
         
         const website = absolute_url;
@@ -34,7 +45,7 @@ export async function getJobs(company: string = DEFAULT_COMPANY): Promise<JobLis
           logoBackground: LOGO_BACKGROUND,
           position: title,
           postedAt: updated_at,
-          contract: metadata?.find((m: any) => m.name === "Employment Type")?.value || "Full Time",
+          contract: metadata?.find((m) => m.name === "Employment Type")?.value || "Full Time",
           location: location?.name || "Remote",
           website,
           apply: website,
@@ -52,11 +63,11 @@ export async function getJobs(company: string = DEFAULT_COMPANY): Promise<JobLis
     );
     
     return listings;
-  } catch (error) {
+  } catch (error: unknown) {
     // Log error details for debugging (in development)
     console.error("Error fetching job listings:", error);
     
-    const err = handleApiError(error); // Handle the error using the imported function
+    const err = handleApiError(error as AxiosError); // Handle the error using the imported function
     throw new Error(err);
   }
 }

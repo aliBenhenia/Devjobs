@@ -2,14 +2,12 @@
 
 import { useParams } from "next/navigation"
 import Link from "next/link"
-import { useState, useEffect, use } from "react"
-import Button from "@/components/ui/Button"
+import { useState, useEffect } from "react"
 import parse from 'html-react-parser';
 import he from 'he';
 import { useSearchParams } from "next/navigation";
 import api from "@/services/api"
 import Image from "next/image"
-import axios from "axios"
 import type { Job } from "@/types/"
 import getLogo from "@/lib/getLogo"
 import { DEFAULT_COMPANY } from "@/constants";
@@ -39,8 +37,8 @@ export default function JobDetailsPage() {
         if (res.status !== HTTP_STATUS.OK) throw new Error("Job not found")
         const data = res.data;
         setJob(data)
-      } catch (err: any) {
-        setError(err.message || "Failed to fetch job")
+      } catch (err: unknown) {
+        setError((err as Error).message || "Failed to fetch job")
       } finally {
         setLoading(false)
       }

@@ -14,6 +14,7 @@ async function getLogo(companyName: string): Promise<string | null> {
     return logo || null;
   } catch (error) {
     // Return null if there's an error (e.g., no logo available)
+    console.error("Error fetching logo:", error);
     return null;
   }
 }
