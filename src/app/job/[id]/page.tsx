@@ -10,7 +10,7 @@ import { useSearchParams } from "next/navigation";
 import api from "@/services/api"
 import Image from "next/image"
 import axios from "axios"
-
+import type { Job } from "@/types/"
 async function getLogo(companyName: string): Promise<string | null> {
   try {
     // Make a request to Clearbit's autocomplete API
@@ -28,16 +28,7 @@ async function getLogo(companyName: string): Promise<string | null> {
     return null;
   }
 }
-interface Job {
-  id: number
-  title: string
-  location: {
-    name: string
-  }
-  updated_at: string
-  absolute_url: string
-  content: string // HTML content
-}
+
 
 export default function JobDetailsPage() {
   const params = useParams();

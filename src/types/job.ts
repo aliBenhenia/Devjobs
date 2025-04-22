@@ -19,4 +19,14 @@ interface JobListing {
     items: string[];
   };
 }
-export type { JobListing };
+interface Job {
+  id: number
+  title: string
+  location: {
+    name: string
+  }
+  updated_at: string
+  absolute_url: string
+  content: string // HTML content
+}
+export type { JobListing, Job };
