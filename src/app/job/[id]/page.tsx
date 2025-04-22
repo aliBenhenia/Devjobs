@@ -11,31 +11,15 @@ import api from "@/services/api"
 import Image from "next/image"
 import axios from "axios"
 import type { Job } from "@/types/"
-async function getLogo(companyName: string): Promise<string | null> {
-  try {
-    // Make a request to Clearbit's autocomplete API
-    const res = await axios.get(
-      `https://autocomplete.clearbit.com/v1/companies/suggest?query=${encodeURIComponent(
-        companyName
-      )}`
-    );
-
-    // Get the logo URL from the response
-    const logo = res.data?.[0]?.logo;
-    return logo || null;
-  } catch (error) {
-    // Return null if there's an error (e.g., no logo available)
-    return null;
-  }
-}
-
+import getLogo from "@/lib/getLogo"
+import { DEFAULT_COMPANY } from "@/constants"
 
 export default function JobDetailsPage() {
   const params = useParams();
   const [job, setJob] = useState<Job | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const company = useSearchParams().get("company") || "figma"; // Default to "figma" if no company is provided
+  const company = useSearchParams().get("company") || DEFAULT_COMPANY; // Default to "figma" if no company is provided
   const [logo, setLogo] = useState<string | null>(null)
 
   useEffect(() => {

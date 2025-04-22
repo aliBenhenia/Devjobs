@@ -4,12 +4,7 @@ import React,{ useEffect, useState } from "react";
 import Header from "@/components/shared/header";
 import Footer from "@/components/shared/footer";
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.theme === 'dark';
-    }
-    return false;
-  });
+  const [darkMode, setDarkMode] = useState(() =>(typeof window !== 'undefined' && localStorage.theme === 'dark') || false);
 
   useEffect(() => {
     const root = window.document.documentElement;
