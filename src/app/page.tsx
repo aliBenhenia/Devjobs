@@ -13,7 +13,6 @@ import { DEFAULT_COMPANY } from "@/constants";
 import type { JobListing } from "@/types/job";
 import { useMemo } from "react";
 
-
 export default function Home() {
   const router = useRouter();
   const loader = useRef<HTMLDivElement>(null);
@@ -32,11 +31,10 @@ export default function Home() {
   const [initialLoad, setInitialLoad] = useState(true);
   const locations = useMemo(() => getLocations(allJobs), [allJobs]);
 
-
   // Fetch jobs on company change
   useEffect(() => {
     const fetchJobs = async () => {
-      setLoading(true);
+      setLoading(true); // Show spinner when fetching data
       try {
         const company = filters.selectedCompany || DEFAULT_COMPANY;
         const jobs = await getJobs(company);
@@ -45,7 +43,7 @@ export default function Home() {
       } catch (error) {
         console.error("Error fetching jobs:", error);
       } finally {
-        setLoading(false);
+        setLoading(false); // Hide spinner after data is fetched
         setInitialLoad(false);
       }
     };
@@ -66,7 +64,7 @@ export default function Home() {
     } else {
       setFilters(newFilters);
     }
-  },[filters.searchText, debouncedSearch]);
+  }, [filters.searchText, debouncedSearch]);
 
   // Filter jobs by searchText and location
   useEffect(() => {
@@ -121,6 +119,7 @@ export default function Home() {
       if (loader.current) observer.unobserve(loader.current);
     };
   }, [loader.current, visibleJobs, filteredJobs, loading, loadMore]);
+
   const renderedJobs = useMemo(
     () =>
       visibleJobs.map((job) => (
@@ -134,6 +133,7 @@ export default function Home() {
       )),
     [visibleJobs, router]
   );
+
   return (
     <div className="px-4 py-6 max-w-7xl mx-auto">
       <Search
@@ -149,6 +149,13 @@ export default function Home() {
         </div>
       )}
 
+      {/* Show loading spinner when company filter changes */}
+      {loading && !initialLoad && (
+        <div className="flex justify-center mt-16">
+          <Spin size="large" />
+        </div>
+      )}
+
       {/* No jobs found */}
       {!loading && !initialLoad && filteredJobs.length === 0 && (
         <div className="text-center text-gray-500 mt-12 text-lg">
@@ -157,15 +164,6 @@ export default function Home() {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-        {/* {visibleJobs.map((job) => (
-          <div
-            key={`${job.id}-${job.company}`}
-            className="cursor-pointer"
-            onClick={() => router.push(`/job/${job.id}?company=${job.company}`)}
-          >
-            <Card {...job} />
-          </div>
-        ))} */}
         {renderedJobs}
       </div>
 

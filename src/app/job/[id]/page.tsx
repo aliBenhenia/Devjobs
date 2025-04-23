@@ -82,7 +82,7 @@ export default function JobDetailsPage() {
             alt={`${company} logo`}
             width={70}
             height={70}
-            className="rounded-lg object-contain"
+            className="rounded object-contain h-full"
           />
         </div>
         <div className="flex-1">
