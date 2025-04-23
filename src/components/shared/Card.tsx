@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import React from "react";
 interface CardProps {
     company: string;
     logo: string;
@@ -10,7 +10,7 @@ interface CardProps {
     location: string;
   }
   
-  const Card = ({
+  const Card = React.memo(({
     company,
     logo,
     logoBackground,
@@ -44,7 +44,7 @@ interface CardProps {
         </div>
       </div>
     );
-  };
+  });
   
   export default Card;
   

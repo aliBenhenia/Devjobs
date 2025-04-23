@@ -11,6 +11,7 @@ import { Spin } from "antd";
 import { PAGE_SIZE } from "@/constants";
 import { DEFAULT_COMPANY } from "@/constants";
 import type { JobListing } from "@/types/job";
+import { useMemo } from "react";
 
 
 export default function Home() {
@@ -29,6 +30,8 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
+  const locations = useMemo(() => getLocations(allJobs), [allJobs]);
+
 
   // Fetch jobs on company change
   useEffect(() => {
@@ -57,13 +60,13 @@ export default function Home() {
     }, 300)
   ).current;
 
-  const handleFilterChange = (newFilters: typeof filters) => {
+  const handleFilterChange = useCallback((newFilters: typeof filters) => {
     if (newFilters.searchText !== filters.searchText) {
       debouncedSearch(newFilters.searchText);
     } else {
       setFilters(newFilters);
     }
-  };
+  },[filters.searchText, debouncedSearch]);
 
   // Filter jobs by searchText and location
   useEffect(() => {
@@ -118,13 +121,25 @@ export default function Home() {
       if (loader.current) observer.unobserve(loader.current);
     };
   }, [loader.current, visibleJobs, filteredJobs, loading, loadMore]);
-
+  const renderedJobs = useMemo(
+    () =>
+      visibleJobs.map((job) => (
+        <div
+          key={`${job.id}-${job.company}`}
+          className="cursor-pointer"
+          onClick={() => router.push(`/job/${job.id}?company=${job.company}`)}
+        >
+          <Card {...job} />
+        </div>
+      )),
+    [visibleJobs, router]
+  );
   return (
     <div className="px-4 py-6 max-w-7xl mx-auto">
       <Search
         filters={filters}
         onChange={handleFilterChange}
-        locations={getLocations(allJobs)}
+        locations={locations}
       />
 
       {/* Loading for first time */}
@@ -142,7 +157,7 @@ export default function Home() {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-        {visibleJobs.map((job) => (
+        {/* {visibleJobs.map((job) => (
           <div
             key={`${job.id}-${job.company}`}
             className="cursor-pointer"
@@ -150,7 +165,8 @@ export default function Home() {
           >
             <Card {...job} />
           </div>
-        ))}
+        ))} */}
+        {renderedJobs}
       </div>
 
       {/* Infinite Scroll Loader */}
