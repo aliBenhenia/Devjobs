@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation"
 import Link from "next/link"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import parse from 'html-react-parser';
 import he from 'he';
 import { useSearchParams } from "next/navigation";
@@ -12,6 +12,7 @@ import type { Job } from "@/types/"
 import getLogo from "@/lib/getLogo"
 import { DEFAULT_COMPANY } from "@/constants";
 import {HTTP_STATUS} from "@/constants";
+import JobTitleLocation from "@/components/shared/JobDetailsPage";
 
 export default function JobDetailsPage() {
   const params = useParams();
@@ -20,7 +21,9 @@ export default function JobDetailsPage() {
   const [error, setError] = useState<string | null>(null)
   const company = useSearchParams().get("company") || DEFAULT_COMPANY; // Default to "figma" if no company is provided
   const [logo, setLogo] = useState<string | null>(null)
-
+  const parsedContent = useMemo(() => {
+    return job ? parse(he.decode(job.content)) : null;
+  }, [job]);
   useEffect(() => {
     const jobId = params?.id;
     if (!jobId) {
@@ -81,8 +84,9 @@ export default function JobDetailsPage() {
             />
           </div>
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-bg-dark dark:text-bg mb-1">{job.title}</h2>
-            <p className="text-sm text-gray-500 mb-1">{job.location.name}</p>
+            {/* <h2 className="text-2xl font-bold text-bg-dark dark:text-bg mb-1">{job.title}</h2>
+            <p className="text-sm text-gray-500 mb-1">{job.location.name}</p> */}
+            <JobTitleLocation title={job.title} location={job.location.name} className="text-2xl font-bold text-bg-dark dark:text-bg mb-1" />
             <p className="text-xs text-gray-400">Updated at: {new Date(job.updated_at).toLocaleDateString()}</p>
           </div>
         </div>
@@ -97,7 +101,8 @@ export default function JobDetailsPage() {
     
           {/* Parsed Job Description */}
           <div className="job-description prose prose-invert max-w-none">
-            {parse(he.decode(job.content))}
+            {/* {parse(he.decode(job.content))} */}
+            {parsedContent}
           </div>
     
           {/* Footer Apply CTA */}

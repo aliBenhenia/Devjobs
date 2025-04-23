@@ -19,6 +19,7 @@ interface JobListing {
     items: string[];
   };
 }
+
 interface Job {
   id: number
   title: string
@@ -29,4 +30,11 @@ interface Job {
   absolute_url: string
   content: string // HTML content
 }
-export type { JobListing, Job };
+
+type JobHeaderProps = {
+  title: string;
+  location: string;
+  className?: string;
+}
+
+export type { JobListing, Job , JobHeaderProps };
