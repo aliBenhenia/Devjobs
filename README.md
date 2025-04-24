@@ -20,7 +20,6 @@ DevJobs is a sleek and modern job board application that allows users to browse,
 - [Next.js 13](https://nextjs.org/)
 - [React](https://reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [CSS Modules](https://nextjs.org/docs/basic-features/built-in-css-support#adding-component-level-css)
 - [ESLint & Prettier](https://eslint.org/)
 
 ---
@@ -29,7 +28,7 @@ DevJobs is a sleek and modern job board application that allows users to browse,
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/devjobs.git
+git clone https://github.com/alibenhenia/devjobs.git
 cd devjobs
 
 # Install dependencies
