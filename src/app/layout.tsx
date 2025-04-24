@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/styles/globals.css";
 import AppLayout from "@/components/layout/AppLayout";
 
 // import ThemeToggle from "./t";
