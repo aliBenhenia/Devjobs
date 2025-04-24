@@ -45,6 +45,6 @@ interface CardProps {
       </div>
     );
   });
-  
+  Card.displayName = "Card";
   export default Card;
   
