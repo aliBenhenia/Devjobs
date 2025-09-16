@@ -16,8 +16,17 @@ interface SearchProps {
   locations? : string[];
 }
 
+interface Job {
+  id: string;
+  title: string;
+  location?: {
+    name: string;
+  };
+  company: string;
+}
+
 export default function Search({ filters, onChange ,locations}: SearchProps) {
-  const [jobResults, setJobResults] = useState<any[]>([])
+  const [jobResults, setJobResults] = useState<Job[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -33,17 +42,17 @@ export default function Search({ filters, onChange ,locations}: SearchProps) {
     setIsLoading(true)
     try {
       // Fetch from all companies
-      const allJobs = []
+      const allJobs: Job[] = []
       for (const company of companies.slice(0, 5)) { // Limit to 5 companies for performance
         try {
           const response = await fetch(`${BASE_URL}/${company}/embed/jobs?content=true`)
           if (response.ok) {
             const data = await response.json()
-            const filteredJobs = data.jobs.filter((job: any) =>
+            const filteredJobs = data.jobs.filter((job: Job) =>
               job.title.toLowerCase().includes(query.toLowerCase())
             ).slice(0, 3) // Limit to 3 jobs per company
             
-            filteredJobs.forEach((job: any) => {
+            filteredJobs.forEach((job: Job) => {
               allJobs.push({
                 ...job,
                 company: company
@@ -207,7 +216,7 @@ export default function Search({ filters, onChange ,locations}: SearchProps) {
             </div>
           ) : filters.searchText ? (
             <div className="p-4 text-center text-gray-500 dark:text-gray-400">
-              No jobs found for "{filters.searchText}"
+              No jobs found for &quot;{filters.searchText}&quot;
             </div>
           ) : null}
         </div>
