@@ -12,7 +12,7 @@ import type { Job } from "@/types/"
 import getLogo from "@/lib/getLogo"
 import { DEFAULT_COMPANY } from "@/constants";
 import {HTTP_STATUS} from "@/constants";
-import JobTitleLocation from "@/components/shared/JobDetailsPage";
+// import JobTitleLocation from "@/components/shared/JobDetailsPage";
 import { Spin } from 'antd';
 import { MapPin, Calendar, ExternalLink, Building } from "lucide-react";
 
